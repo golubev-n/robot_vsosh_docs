@@ -37,7 +37,9 @@
               </div>
               <div class="item-body">
                 <div class="meta">
-                  <time datetime="{{ .Date }}">{{ .Date.Format "02 янв 2006" }}</time>
+		  {{ $d := or .PublishDate .Date }}
+		  {{ $iso := $d | time.Format "2006-01-02T15:04:05Z07:00" }}
+		  <time datetime="{{ $iso }}">{{ $d.Format "02 янв 2006" }}</time>
                   {{ with .Params.categories }}<span>•</span><span>{{ delimit . ", " }}</span>{{ end }}
                 </div>
                 <h3 class="title">{{ .Title }}</h3>
