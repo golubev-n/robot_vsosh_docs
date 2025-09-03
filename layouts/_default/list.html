@@ -11,7 +11,7 @@
           <article class="feed-item">
             <div class="thumb">{{ with .Params.cover }}<img src="{{ . | relURL }}" alt="">{{ end }}</div>
             <div class="item-body">
-              <div class="meta"><time datetime="{{ .Date }}">{{ .Date.Format "02 янв 2006" }}</time></div>
+              <div class="meta"><time datetime="{{ .Date }}">{{ .Date.Format "02 янв 2025" }}</time></div>
               <h3 class="title">{{ .Title }}</h3>
               <p class="desc">{{ with .Params.excerpt }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
               <div class="actions"><a class="btn" href="{{ .RelPermalink }}">Читать</a></div>
