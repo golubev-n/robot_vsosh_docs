@@ -7,7 +7,7 @@
           <img class="img-adapt" src="/img/banner.png" alt="Баннер: специальный выпуск">
         </div>
         <div class="banner-text">
-          <h2>Сайт сопровождения участников олимпиады по профилю "Робототехника"</h2>
+          <h2>Сайт сопровождения участников олимпиады по профилю "Робототехника"!</h2>
           <p>Читайте всю актуальную информацию по олимпиаде в 25/26 году.</p>
         </div>
       </div>
@@ -25,8 +25,8 @@
       <div class="feed-list">
         {{ $posts := site.GetPage "section" "posts" }}
         {{ if $posts }}
-          {{/* Пагинируем на главной: по 10 постов на страницу */}}
-          {{ $p := .Paginate ($posts.RegularPages.ByDate.Reverse) 10 }}
+          {{/* Пагинируем на главной: по 4 постов на страницу */}}
+	  {{ $p := .Paginate ($posts.RegularPages.ByPublishDate.Reverse) 4 }}
 
           {{ range $p.Pages }}
             <article class="feed-item">
@@ -39,7 +39,7 @@
                 <div class="meta">
 		  {{ $d := or .PublishDate .Date }}
 		  {{ $iso := $d | time.Format "2006-01-02T15:04:05Z07:00" }}
-		  <time datetime="{{ $iso }}">{{ $d.Format "02 янв 2006" }}</time>
+		  <time datetime="{{ $iso }}">{{ $d.Format "02.01.2006"}}</time>
                   {{ with .Params.categories }}<span>•</span><span>{{ delimit . ", " }}</span>{{ end }}
                 </div>
                 <h3 class="title">{{ .Title }}</h3>
