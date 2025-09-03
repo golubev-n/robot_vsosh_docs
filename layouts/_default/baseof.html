@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{ block "title" . }}{{ if .IsHome }}ВСОШ робототехника{{ else }}{{ .Title }} • ВСОШ{{ end }}{{ end }}</title>
+  <link rel="stylesheet" href="/style.css"/>
+  <script defer src="/script.js"></script>
+</head>
+<body>
+  {{ partial "header.html" . }}
+  <div class="page">
+    {{ block "main" . }}{{ end }}
+    {{ partial "footer.html" . }}
+  </div>
+</body>
+</html>
+

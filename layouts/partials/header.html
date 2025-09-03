@@ -1,0 +1,82 @@
+<header>
+  <div class="container">
+    <nav class="nav" id="siteNav" aria-label="Основная навигация">
+      <a class="brand" href="{{ "/" | relURL }}"><img src="/img/logo.png" alt="VSOSHLOGO" height="45"></a>
+
+      <button class="burger" id="burger" aria-label="Меню" aria-controls="menu" aria-expanded="false">
+        <span></span>
+      </button>
+
+      <ul class="menu" id="menu" role="menubar" aria-label="Главное меню">
+        {{/* Текущая страница и флаг главной */}}
+        {{ $page := . }}
+        {{ $isHome := .IsHome }}
+
+        {{/* 1) Если меню задано (menu.main) — используем его */}}
+        {{ with .Site.Menus.main }}
+          {{ range . }}
+            {{/* Скрытие через params.hidden=true и/или params.hideOnHome=true */}}
+            {{ $hidden := or (and .Params (eq .Params.hidden true)) (and $isHome (and .Params (eq .Params.hideOnHome true))) }}
+            {{ if not $hidden }}
+              {{ if .HasChildren }}
+                <li class="has-sub" role="none">
+                  <button class="submenu-toggle" aria-expanded="false">{{ .Name }}</button>
+                  <ul class="submenu" role="menu" aria-label="Подменю {{ .Name }}">
+                    {{ range .Children }}
+                      {{ $childHidden := or (and .Params (eq .Params.hidden true)) (and $isHome (and .Params (eq .Params.hideOnHome true))) }}
+                      {{ if not $childHidden }}
+                        {{ $active := or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+                        <li role="none">
+                          <a role="menuitem" href="{{ .URL | relURL }}" class="{{ if $active }}active{{ end }}">{{ .Name }}</a>
+                        </li>
+                      {{ end }}
+                    {{ end }}
+                  </ul>
+                </li>
+              {{ else }}
+                {{ $active := or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+                <li role="none">
+                  <a role="menuitem" href="{{ .URL | relURL }}" class="{{ if $active }}active{{ end }}">{{ .Name }}</a>
+                </li>
+              {{ end }}
+            {{ end }}
+          {{ end }}
+
+        {{/* 2) Иначе — автогенерация из секций (fallback) */}}
+        {{ else }}
+          <li role="none"><a role="menuitem" href="{{ "/" | relURL }}">Главная</a></li>
+
+          {{/* Секции верхнего уровня, где не стоит Params.menu_exclude=true */}}
+          {{ range where .Site.Sections.ByWeight ".Params.menu_exclude" "ne" true }}
+            {{ $sec := . }}
+            {{ if or ($sec.Pages) ($sec.Sections) }}
+              <li class="has-sub" role="none">
+                <button class="submenu-toggle" aria-expanded="false">{{ $sec.Title }}</button>
+                <ul class="submenu" role="menu" aria-label="Подменю {{ $sec.Title }}">
+                  {{/* Страницы секции */}}
+                  {{ range $sec.Pages.ByWeight.ByTitle }}
+                    <li role="none"><a role="menuitem" href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+                  {{ end }}
+                  {{/* Вложенные секции (тоже уважаем menu_exclude) */}}
+                  {{ range where $sec.Sections.ByWeight ".Params.menu_exclude" "ne" true }}
+                    <li role="none"><a role="menuitem" href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+                  {{ end }}
+                </ul>
+              </li>
+            {{ else }}
+              <li role="none"><a role="menuitem" href="{{ $sec.RelPermalink }}">{{ $sec.Title }}</a></li>
+            {{ end }}
+          {{ end }}
+
+          {{/* Пример одиночной страницы: скрываем, если у неё menu_exclude=true */}}
+          {{ with .Site.GetPage "page" "contacts.md" }}
+            {{ if ne .Params.menu_exclude true }}
+              <li role="none"><a role="menuitem" href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      </ul>
+    </nav>
+  </div>
+</header>
+

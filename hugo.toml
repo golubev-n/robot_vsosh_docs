@@ -1,0 +1,43 @@
+#baseURL = 'https://example.org/'
+#languageCode = 'en-us'
+#title = 'My New Hugo Site'
+baseURL = "/"
+languageCode = "ru"
+title = "ВСОШ робототехника"
+
+# ----- (опционально) ЯВНОЕ МЕНЮ -----
+# [menu]
+#   [[menu.main]]
+#     name = "Главная"
+#     url  = "/"
+#     weight = 1
+#   [[menu.main]]
+#     identifier = "participants"
+#     name = "Участникам"
+#     url  = "#"
+#     weight = 10
+#   [[menu.main]]
+#     parent = "participants"
+#     name = "Текущий регламент"
+#     url  = "/uchastnikam/reglament/"
+#     weight = 11
+#   [[menu.main]]
+#     parent = "participants"
+#     name = "Полезные ресурсы"
+#     url  = "/uchastnikam/resources/"
+#     weight = 12
+#   [[menu.main]]
+#     identifier = "parents"
+#     name = "Родителям"
+#     url  = "#"
+#     weight = 20
+#   [[menu.main]]
+#     parent = "parents"
+#     name = "Информация"
+#     url  = "/parents/info/"
+#     weight = 21
+#   [[menu.main]]
+#     name = "Контакты"
+#     url  = "/contacts/"
+#     weight = 30
+

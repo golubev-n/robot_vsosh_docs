@@ -1,0 +1,149 @@
+:root{
+  --bg:#f6f7f8; --fg:#1f2328; --muted:#6b7280; --brand:#83c794;
+  --card:#fff; --brd:#e5e7eb; --radius:14px;
+}
+
+/* База */
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--fg)}
+.container{max-width:1200px;margin:0 auto;padding:0 16px}
+.page{min-height:100dvh;display:flex;flex-direction:column}
+.visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px);width:1px;height:1px;overflow:hidden;white-space:nowrap}
+
+/* Кнопки */
+.btn{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:8px 12px;cursor:pointer}
+a.btn{text-decoration:none}
+
+/* Шапка + меню */
+header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--brd)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;height:72px}
+.brand img{display:block;height:60px;width:auto}
+
+/* Бургер (моб.) */
+.burger{
+  display:none;width:44px;height:44px;border:1px solid var(--brd);border-radius:12px;background:#fff;
+  align-items:center;justify-content:center;cursor:pointer
+}
+.burger span{width:20px;height:2px;background:#111;border-radius:2px;position:relative;display:block}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:#111;border-radius:2px}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+
+/* Горизонтальное меню (десктоп) */
+.menu{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:8px}
+.menu > li{position:relative}
+.menu a,.submenu-toggle{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;
+  text-decoration:none;color:inherit;background:none;border:0;cursor:pointer;font:inherit
+}
+.menu a:hover,.submenu-toggle:hover{background:var(--bg)}
+.menu a.active{font-weight:600;background:var(--bg)}
+.submenu{
+  position:absolute;top:100%;left:0;min-width:220px;background:#fff;border:1px solid var(--brd);
+  border-radius:12px;padding:6px;margin-top:6px;display:none;box-shadow:0 8px 24px rgba(0,0,0,.08)
+}
+.submenu li{list-style:none}
+.submenu a{display:block;padding:10px 12px;border-radius:8px}
+.submenu a:hover{background:var(--bg)}
+.has-sub.open > .submenu{display:block}
+
+/* Hover + фокус на устройствах с мышью */
+@media (hover:hover){
+  .menu > .has-sub:hover > .submenu,
+  .menu > .has-sub:focus-within > .submenu {
+    display:block;
+  }
+
+  /* видимая индикация фокуса для клавиатуры */
+  .submenu-toggle:focus-visible,
+  .submenu a:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+/* Мобильное меню (та же UL становится панелью) */
+@media (max-width:960px){
+  .burger{display:inline-flex}
+  .menu{
+    position:fixed;inset:72px 0 0 0;display:flex;flex-direction:column;align-items:stretch;gap:6px;
+    background:#fff;border-top:1px solid var(--brd);transform:translateX(-100%);transition:transform .2s ease;
+    padding:12px 12px 24px;z-index:60
+  }
+  .nav.open .menu{transform:none}
+  .nav.open::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.3)}
+  .submenu{position:static;display:none;border:0;box-shadow:none;padding:0 0 0 12px;margin:0}
+  .has-sub.open > .submenu{display:block}
+}
+
+/* Контент */
+main{padding:24px 0;display:flex;flex-direction:column;gap:20px}
+.hero{background:var(--card);border:1px solid var(--brd);border-radius:var(--radius);padding:18px}
+.hero h1{margin:0 0 6px}
+.meta{color:var(--muted);font-size:13px}
+
+/* Баннер */
+.banner{margin:12px 0 24px}
+.banner-inner{
+  display:flex;flex-wrap:wrap;align-items:center;gap:20px;background:var(--card);
+  border:1px solid var(--brd);border-radius:var(--radius);padding:20px
+}
+.banner-text{flex:1 1 280px;display:flex;flex-direction:column;gap:12px}
+.banner-text h2{margin:0}
+.banner-img{flex:0 0 320px;max-width:100%}
+
+/* Картинки */
+.img-adapt{display:block;max-width:100%;height:auto;width:auto}
+
+/* Лента */
+.feed{display:flex;flex-direction:column;gap:16px}
+.feed-list{display:flex;flex-wrap:wrap;gap:16px}
+.feed-item{
+  flex:1 1 320px;max-width:calc(50% - 8px);min-width:280px;
+  background:var(--card);border:1px solid var(--brd);border-radius:var(--radius);
+  display:flex;gap:14px;padding:14px
+}
+.thumb{width:120px;height:90px;flex:0 0 auto;border-radius:10px;background:#eee;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.item-body{display:flex;flex-direction:column}
+.title{margin:2px 0 6px;font-weight:700}
+.desc{margin:0 0 10px}
+.actions{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+
+/* Пагинация Hugo (_internal/pagination.html) */
+.pagination{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.pagination a,.pagination span{
+  padding:6px 10px;border:1px solid var(--brd);border-radius:8px;text-decoration:none;color:inherit
+}
+.pagination [aria-current="page"], .pagination .active{background:#f3f4f6;font-weight:600}
+.pagination a:hover{background:var(--bg)}
+
+/* Статья */
+.article-simple{background:#fff;border:1px solid var(--brd);border-radius:var(--radius);padding:18px}
+.article-image{margin:12px 0 16px}
+.back-row{margin:16px 0 8px}
+.btn.back{background:#fff;color:var(--fg);border:1px solid var(--brd);border-radius:10px;padding:8px 12px}
+
+/* Подвал */
+.site-footer{margin-top:24px;background:#fff;border-top:1px solid var(--brd)}
+.footer-top{display:flex;align-items:flex-start;gap:24px;padding:24px 0;flex-wrap:wrap}
+.partners{flex:1 1 420px}
+.partners-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.partners-list{display:flex;gap:16px;overflow:auto;padding:8px 0;scroll-snap-type:x mandatory}
+.partner-card{flex:0 0 140px;height:64px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--brd);border-radius:12px;scroll-snap-align:center}
+.partner-card img{max-width:100%;max-height:48px;filter:grayscale(1) opacity(.85);transition:filter .2s,transform .2s}
+.partner-card:hover img,.partner-card:focus-visible img{filter:none;transform:scale(1.02);outline:none}
+
+.footer-bottom{border-top:1px solid var(--brd);padding:12px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+.footer-bottom .legal{display:flex;gap:12px}
+.footer-bottom .legal a{color:inherit;text-decoration:none}
+.footer-bottom .legal a:hover,.footer-bottom .legal a:focus-visible{text-decoration:underline;outline:none}
+
+/* Адаптивы */
+@media (max-width:960px){
+  .feed-item{max-width:100%}
+  .banner-inner{flex-direction:column;text-align:center}
+  .banner-img{flex:1 1 auto}
+}
+@media (max-width:640px){
+  .feed-item{ flex-wrap:wrap; }
+}

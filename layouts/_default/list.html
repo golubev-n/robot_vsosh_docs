@@ -1,0 +1,26 @@
+{{ define "main" }}
+  <main class="container">
+    <section class="hero">
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.description }}<p class="meta">{{ . }}</p>{{ end }}
+    </section>
+
+    <section class="feed">
+      <div class="feed-list">
+        {{ range .Pages.ByDate.Reverse }}
+          <article class="feed-item">
+            <div class="thumb">{{ with .Params.cover }}<img src="{{ . | relURL }}" alt="">{{ end }}</div>
+            <div class="item-body">
+              <div class="meta"><time datetime="{{ .Date }}">{{ .Date.Format "02 янв 2006" }}</time></div>
+              <h3 class="title">{{ .Title }}</h3>
+              <p class="desc">{{ with .Params.excerpt }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
+              <div class="actions"><a class="btn" href="{{ .RelPermalink }}">Читать</a></div>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+      {{ template "_internal/pagination.html" . }}
+    </section>
+  </main>
+{{ end }}
+

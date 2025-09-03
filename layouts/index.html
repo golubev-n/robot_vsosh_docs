@@ -1,0 +1,62 @@
+{{ define "main" }}
+  <main class="container">
+    <!-- Баннер -->
+    <section class="banner">
+      <div class="banner-inner">
+        <div class="banner-img">
+          <img class="img-adapt" src="/img/banner.png" alt="Баннер: специальный выпуск">
+        </div>
+        <div class="banner-text">
+          <h2>Сайт сопровождения участников олимпиады по робототехнике</h2>
+          <p>Читайте всю актуальную информацию по олимпиаде в 25/26 году.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Заголовок ленты -->
+    <section class="hero" aria-labelledby="h1">
+      <h1 id="h1">Новости</h1>
+      <p class="meta">Актуальные новости олимпиады по робототехнике</p>
+    </section>
+
+    <!-- Лента: ТОЛЬКО из content/posts + пагинация -->
+    <section class="feed" aria-labelledby="feed-h">
+      <h2 id="feed-h" class="visually-hidden">Новости</h2>
+
+      <div class="feed-list">
+        {{ $posts := site.GetPage "section" "posts" }}
+        {{ if $posts }}
+          {{/* Пагинируем на главной: по 10 постов на страницу */}}
+          {{ $p := .Paginate ($posts.RegularPages.ByDate.Reverse) 10 }}
+
+          {{ range $p.Pages }}
+            <article class="feed-item">
+              <div class="thumb">
+                {{ with .Params.cover }}
+                  <img loading="lazy" src="{{ . | relURL }}" alt="Обложка">
+                {{ end }}
+              </div>
+              <div class="item-body">
+                <div class="meta">
+                  <time datetime="{{ .Date }}">{{ .Date.Format "02 янв 2006" }}</time>
+                  {{ with .Params.categories }}<span>•</span><span>{{ delimit . ", " }}</span>{{ end }}
+                </div>
+                <h3 class="title">{{ .Title }}</h3>
+                <p class="desc">{{ with .Params.excerpt }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
+                <div class="actions">
+                  <a class="btn" href="{{ .RelPermalink }}">Читать</a>
+                </div>
+              </div>
+            </article>
+          {{ end }}
+        {{ else }}
+          <p>Создайте папку <code>content/posts</code> и добавьте материалы.</p>
+        {{ end }}
+      </div>
+
+      {{ if $posts }}
+        {{ template "_internal/pagination.html" . }}
+      {{ end }}
+    </section>
+  </main>
+{{ end }}
