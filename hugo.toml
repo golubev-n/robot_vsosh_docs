@@ -1,7 +1,8 @@
 baseURL = "/"
 languageCode = "ru"
 title = "ВСОШ робототехника"
-
+[params]
+  authorName = "Команда ЦПМК"
 # ----- (опционально) ЯВНОЕ МЕНЮ ----- (сейчас генерируется из секций в папке content исключение posts)
 # [menu]
 #   [[menu.main]]

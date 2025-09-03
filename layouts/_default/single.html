@@ -1,15 +1,50 @@
 {{ define "main" }}
   <main class="container">
+
+    <!-- Верхняя строка: Назад + метаданные -->
     <div class="back-row">
-      <button type="button" class="btn back" id="goBack" data-fallback="{{ "/" | relURL }}">← Назад</button>
+      <a
+        id="goBack"
+        class="btn back"
+        href="{{ with site.GetPage "section" "posts" }}{{ .RelPermalink }}{{ else }}/{{ end }}"
+        data-fallback="{{ with site.GetPage "section" "posts" }}{{ .RelPermalink }}{{ else }}/{{ end }}"
+      >← Назад</a>
+
+      <div class="article-meta">
+        {{/* Дата публикации: publishDate если есть, иначе date */}}
+        {{ $d := or .PublishDate .Date }}
+        <time datetime="{{ $d | time.Format "2006-01-02T15:04:05Z07:00" }}">
+          {{ $d | time.Format "02.01.2006" }}
+        </time>
+
+        {{/* Автор: author (string) -> authors ([]string) -> Site.Params.authorName */}}
+        {{ $author := "" }}
+        {{ with .Params.author }}{{ $author = . }}{{ end }}
+        {{ if not $author }}
+          {{ with .Params.authors }}{{ $author = delimit . ", " }}{{ end }}
+        {{ end }}
+        {{ if not $author }}{{ $author = .Site.Params.authorName }}{{ end }}
+
+        {{ with $author }}
+          <span class="dot">•</span>
+          <span class="author">{{ . }}</span>
+        {{ end }}
+      </div>
     </div>
+
+    <!-- Статья -->
     <article class="article-simple">
       <h1>{{ .Title }}</h1>
+
       {{ with .Params.cover }}
-        <figure class="article-image"><img class="img-adapt" src="{{ . | relURL }}" alt=""></figure>
+        <figure class="article-image">
+          <img class="img-adapt" src="{{ . | relURL }}" alt="">
+        </figure>
       {{ end }}
+
       {{ .Content }}
     </article>
+
   </main>
 {{ end }}
 

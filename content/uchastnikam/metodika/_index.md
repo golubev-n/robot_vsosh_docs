@@ -1,7 +1,8 @@
 ---
-title: "Участникам"
+title: "Методические материалы"
 weight: 10
-description: "Полезные материалы и регламент"
+description: "test"
 # hideOnHome: true        # скрыть на главной, если нужно
 # menu_exclude: true      # полностью скрыть из меню
 ---
+
