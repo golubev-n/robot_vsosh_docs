@@ -1,11 +1,8 @@
-#baseURL = 'https://example.org/'
-#languageCode = 'en-us'
-#title = 'My New Hugo Site'
 baseURL = "/"
 languageCode = "ru"
 title = "ВСОШ робототехника"
 
-# ----- (опционально) ЯВНОЕ МЕНЮ -----
+# ----- (опционально) ЯВНОЕ МЕНЮ ----- (сейчас генерируется из секций в папке content исключение posts)
 # [menu]
 #   [[menu.main]]
 #     name = "Главная"
