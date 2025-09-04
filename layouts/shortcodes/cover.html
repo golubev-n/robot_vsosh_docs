@@ -1,0 +1,4 @@
+{{ $src := .Get "src" }}
+{{ $img := resources.Get $src | images.Fit "1200x q75" }}
+<img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ .Get "alt" }}">
+

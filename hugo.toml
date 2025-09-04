@@ -1,8 +1,26 @@
-baseURL = "/"
-languageCode = "ru"
-title = "ВСОШ робототехника"
+baseURL = "https://nika-contest.ru/"
+languageCode = "ru-ru"
+enableRobotsTXT = true
+
 [params]
+  description = "Актуальная информация олимпиады по профилю робототехника"
+  ogDefault   = "/img/social/default.jpg"
+  math = false
   authorName = "Команда ЦПМК"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[permalinks]
+  posts = "/posts/:slug/"
+
+[sitemap]
+  changefreq = "daily"
+  priority = 0.5
+
+title = "ВСОШ робототехника"
+
 # ----- (опционально) ЯВНОЕ МЕНЮ ----- (сейчас генерируется из секций в папке content исключение posts)
 # [menu]
 #   [[menu.main]]

@@ -1,0 +1,19 @@
+{{- $title := cond (ne .Title "") .Title .Site.Title -}}
+{{- $desc  := or .Params.description .Summary .Site.Params.description -}}
+{{- $url   := .Permalink -}}
+{{- $img   := or .Params.cover .Site.Params.ogDefault -}}
+
+<meta name="description" content="{{ $desc | plainify | truncate 160 }}">
+<link rel="canonical" href="{{ $url }}">
+
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc | plainify | truncate 200 }}">
+<meta property="og:url" content="{{ $url }}">
+{{ with $img }}<meta property="og:image" content="{{ . | relURL }}">{{ end }}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $desc | plainify | truncate 200 }}">
+{{ with $img }}<meta name="twitter:image" content="{{ . | relURL }}">{{ end }}
+

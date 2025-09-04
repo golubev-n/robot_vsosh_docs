@@ -3,16 +3,45 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>{{ block "title" . }}{{ if .IsHome }}ВСОШ робототехника{{ else }}{{ .Title }} • ВСОШ{{ end }}{{ end }}</title>
-  <link rel="stylesheet" href="/style.css"/>
-  <script defer src="/script.js"></script>
+  <title>{{ if .Title }}{{ .Title }} — {{ end }}{{ .Site.Title }}</title>
+
+  {{/* CSS через Hugo Pipes с fallback на статик */}}
+  {{ $css := resources.Get "css/style.css" }}
+  {{ if $css }}
+    {{ $css = $css | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet"
+          href="{{ $css.RelPermalink }}"
+          integrity="{{ $css.Data.Integrity }}"
+          crossorigin="anonymous">
+  {{ else }}
+    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+  {{ end }}
+
+  {{ partial "meta.html" . }}
 </head>
 <body>
+  <a href="#main" class="visually-hidden">Перейти к контенту</a>
+
   {{ partial "header.html" . }}
-  <div class="page">
-    {{ block "main" . }}{{ end }}
-    {{ partial "footer.html" . }}
-  </div>
+
+  {{ block "main" . }}{{ end }}
+
+  {{ partial "footer.html" . }}
+
+  {{/* JS через Hugo Pipes с fallback на статик */}}
+  {{ $js := resources.Get "js/script.js" }}
+  {{ if $js }}
+    {{ $js = $js | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $js.RelPermalink }}"
+            integrity="{{ $js.Data.Integrity }}"
+            crossorigin="anonymous"></script>
+  {{ else }}
+    <script defer src="{{ "js/script.js" | relURL }}"></script>
+  {{ end }}
+
+  {{ if or .Params.math .Site.Params.math }}
+    {{ partial "math.html" . }}
+  {{ end }}
 </body>
 </html>
 

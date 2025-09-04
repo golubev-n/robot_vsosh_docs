@@ -1,66 +1,36 @@
 {{ define "main" }}
-<main class="container">
-
-  <!-- Шапка раздела: заголовок + описание -->
+<main id="main" class="container">
   <section class="section-head">
     <h1>{{ .Title }}</h1>
-
-    {{/* приоритет: .Content из _index.md → .Params.description → ничего */}}
-    {{ with .Content }}
-      <div class="lead">{{ . }}</div>
-    {{ else }}
-      {{ with .Params.description }}
-        <p class="lead">{{ . }}</p>
-      {{ end }}
-    {{ end }}
+    {{ with .Content }}<div class="lead">{{ . }}</div>{{ else }}{{ with .Params.description }}<p class="lead">{{ . }}</p>{{ end }}{{ end }}
   </section>
-  <div class="back-row">
-  <a
-        id="goBack"
-        class="btn back"
-        href="{{ with site.GetPage "section" "posts" }}{{ .RelPermalink }}{{ else }}/{{ end }}"
-        data-fallback="{{ with site.GetPage "section" "posts" }}{{ .RelPermalink }}{{ else }}/{{ end }}"
-      >← Назад</a>
-  </div>
-  <!-- Список ссылок внутри раздела (только один уровень вложенности) -->
+
   {{ $childSections := .Sections.ByWeight }}
   {{ $childPages    := .RegularPages.ByWeight }}
-  {{ $hasAnything   := or (gt (len $childSections) 0) (gt (len $childPages) 0) }}
+  {{ $has           := or (gt (len $childSections) 0) (gt (len $childPages) 0) }}
 
   <section class="links-block" aria-labelledby="links-h">
     <h2 id="links-h" class="visually-hidden">Материалы раздела</h2>
-
-    {{ if $hasAnything }}
+    {{ if $has }}
       <ul class="links-list">
-        {{/* Сначала подпапки (вложенные разделы) */}}
         {{ range $s := $childSections }}
           {{ if not (eq $s.Params.menu_exclude true) }}
             <li class="link-item section-link">
               <a class="link" href="{{ $s.RelPermalink }}">{{ $s.Title }}</a>
-              {{ with $s.Params.description }}
-                <div class="desc">{{ . }}</div>
-              {{ end }}
+              {{ with $s.Params.description }}<div class="desc">{{ . }}</div>{{ end }}
             </li>
           {{ end }}
         {{ end }}
-
-        {{/* Затем обычные страницы этого раздела */}}
         {{ range $p := $childPages }}
           {{ if not (eq $p.Params.menu_exclude true) }}
             <li class="link-item page-link">
               <a class="link" href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
               <div class="meta">
                 {{ $d := or $p.PublishDate $p.Date }}
-                <time datetime="{{ $d | time.Format "2006-01-02T15:04:05Z07:00" }}">
-                  {{ $d | time.Format "02.01.2006" }}
-                </time>
-                {{ with $p.Params.author }}
-                  <span class="dot">•</span><span>{{ . }}</span>
-                {{ end }}
+                <time datetime="{{ $d | time.Format "2006-01-02T15:04:05Z07:00" }}">{{ $d | time.Format "02.01.2006" }}</time>
+                {{ with $p.Params.author }}<span class="dot">•</span><span>{{ . }}</span>{{ end }}
               </div>
-              {{ with $p.Params.excerpt }}
-                <div class="desc">{{ . }}</div>
-              {{ end }}
+              {{ with $p.Params.excerpt }}<div class="desc">{{ . }}</div>{{ end }}
             </li>
           {{ end }}
         {{ end }}
@@ -69,7 +39,6 @@
       <p class="muted">В этом разделе пока нет материалов.</p>
     {{ end }}
   </section>
-
 </main>
 {{ end }}
 
